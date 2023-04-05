@@ -1,0 +1,65 @@
+pimcore:
+    workflows:
+        simple_workflow:
+            enabled : true
+            priority : 0           
+            label: 'Simple Workflow'
+            type: 'state_machine'           
+            supports : Pimcore\Model\DataObject\product
+            initial_markings: [start]
+            places:
+                start:
+                    label: 'Start'
+                    title: 'Start Here'
+                    color: '#3572b0'
+                    visibleInHeader: true
+                in_progress:
+                    label: 'In Progress'
+                    color: 'blue'
+                    visibleInHeader: true
+                in_review:
+                    label: 'In Review'
+                    color: 'orange'
+                    visibleInHeader: true
+                finished:
+                    label: 'Published'
+                    color: 'green'
+                    visibleInHeader: true
+            transitions:
+                start_working:
+                    from: start
+                    to: in_progress
+                    options:
+                        label: 'Start Working'
+                        notes:
+                            commentEnabled: true
+                            commentRequired: true
+#                    guard : is_fully_authenticated() and is_granted('ROLE_PROJECT_MANAGER')
+                start_reviewing:
+                    from: in_progress
+                    to: in_review
+                    options:
+                        label: 'Start Reviewing'
+                        notes:
+                            commentEnabled: true
+                            commentRequired: true
+#                    guard : is_fully_authenticated() and is_granted('ROLE_EDITOR')
+                finished:
+                    from: in_review
+                    to: finished
+                    options:
+                        label: 'Published'
+                        changePublishedState: "force_published"
+                        notes:
+                            commentEnabled: true
+                            commentRequired: true
+#                    guard : is_fully_authenticated() and is_granted('ROLE_PROJECT_MANAGER')
+                reject:
+                    from: in_review
+                    to: in_progress
+                    options:
+                        label: 'Rejected'
+                        notes:
+                            commentEnabled: true
+                            commentRequired: true
+#                    guard : is_fully_authenticated() and is_granted('ROLE_PROJECT_MANAGER')
