@@ -1,49 +1,71 @@
 pimcore:
     workflows:
+        # Prototype
         simple_workflow:
+            # Can be used to enable or disable the workflow.
             enabled : true
-            priority : 0           
+            # When multiple custom view or permission settings from different places in different workflows are valid, the workflow with the highest priority will be used.
+            priority : 1   
+            # Will be used in the backend interface as nice name for the workflow. If not set the technical workflow name will be used as label too.        
             label: 'Simple Workflow'
-            type: 'state_machine'           
+            # A workflow with type "workflow" can handle multiple places at one time whereas a state_machine provides a finite state_machine (only one place at one time). Take a look at the Symfony docs for more details.             
+            type: 'state_machine' # One of "workflow"; "state_machine"  
+            # List of supported entity classes. Take a look at the Symfony docs for more details.        
             supports : Pimcore\Model\DataObject\product
+            # Possibility to add multiple initial places.
             initial_markings: [start]
             places:
                 start:
-                    label: 'Start'
-                    title: 'Start Here'
+                    # Nice name which will be used in the Pimcore backend.
+                    label: 'Start raj'
+                    # Title/tooltip for this place when it is displayed in the header of the Pimcore element detail view in the backend.
+                    title: 'Start Here raj'
+                    # Color of the place which will be used in the Pimcore backend.
                     color: '#3572b0'
+                    # If set to false, the place will be hidden in the header of the Pimcore element detail view in the backend.
                     visibleInHeader: true
                 in_progress:
-                    label: 'In Progress'
+                     # Nice name which will be used in the Pimcore backend.
+                    label: 'In Progress raj'
+                    # Color of the place which will be used in the Pimcore backend.
                     color: 'blue'
+                    # If set to false, the place will be hidden in the header of the Pimcore element detail view in the backend.
                     visibleInHeader: true
                 in_review:
-                    label: 'In Review'
+                    # Nice name which will be used in the Pimcore backend.
+                    label: 'In Review raj'
+                    # Color of the place which will be used in the Pimcore backend.
                     color: 'orange'
+                    # If set to false, the place will be hidden in the header of the Pimcore element detail view in the backend.
                     visibleInHeader: true
                 finished:
-                    label: 'Published'
+                    # Nice name which will be used in the Pimcore backend.
+                    label: 'Published raj'
+                    # Color of the place which will be used in the Pimcore backend.
                     color: 'green'
+                    # If set to false, the place will be hidden in the header of the Pimcore element detail view in the backend.
                     visibleInHeader: true
-            transitions:
+            transitions: # Required
                 start_working:
                     from: start
                     to: in_progress
                     options:
                         label: 'Start Working'
                         notes:
+                            # If enabled a detail window will open when the user executes the transition. In this detail view the user be asked to enter a "comment". This comment then will be used as comment for the notes/events feature.
                             commentEnabled: true
+                            # Set this to true if the comment should be a required field.
                             commentRequired: true
-#                    guard : is_fully_authenticated() and is_granted('ROLE_PROJECT_MANAGER')
                 start_reviewing:
                     from: in_progress
                     to: in_review
                     options:
                         label: 'Start Reviewing'
                         notes:
+                            # If enabled a detail window will open when the user executes the transition. In this detail view the user be asked to enter a "comment". This comment then will be used as comment for the notes/events feature.
                             commentEnabled: true
+                            # Set this to true if the comment should be a required field.
                             commentRequired: true
-#                    guard : is_fully_authenticated() and is_granted('ROLE_EDITOR')
                 finished:
                     from: in_review
                     to: finished
@@ -51,15 +73,17 @@ pimcore:
                         label: 'Published'
                         changePublishedState: "force_published"
                         notes:
+                            # If enabled a detail window will open when the user executes the transition. In this detail view the user be asked to enter a "comment". This comment then will be used as comment for the notes/events feature.
                             commentEnabled: true
+                            # Set this to true if the comment should be a required field.
                             commentRequired: true
-#                    guard : is_fully_authenticated() and is_granted('ROLE_PROJECT_MANAGER')
                 reject:
                     from: in_review
                     to: in_progress
                     options:
                         label: 'Rejected'
                         notes:
+                            # If enabled a detail window will open when the user executes the transition. In this detail view the user be asked to enter a "comment". This comment then will be used as comment for the notes/events feature.
                             commentEnabled: true
+                            # Set this to true if the comment should be a required field.
                             commentRequired: true
-#                    guard : is_fully_authenticated() and is_granted('ROLE_PROJECT_MANAGER')

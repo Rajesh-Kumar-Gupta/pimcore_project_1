@@ -10,10 +10,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends FrontendController
 {
     /**
-     * @Route("/test")
+     * @Route("/home")
      */
-    public function indexAction(Request $request)
-    {
-        return new Response('Hello world from test');
+   
+    public function indexAction(Request $request): Response{
+        //return $this->render('/testBundle/includes/home.html.twig');
+        return $this->render('@TestBundle/includes/home.html.twig');
+        
     }
 }
