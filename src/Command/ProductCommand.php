@@ -28,7 +28,7 @@ class ProductCommand extends \Pimcore\Console\AbstractCommand
         $product->setKey('product-144');
         $product->setPublished(true);
         $product->save();
-        $output->writeInfo('Product is successfull created');
+        $output->writeln('Product is successfull created');
         return 0;
     }
 }
